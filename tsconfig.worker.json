@@ -8,6 +8,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/worker"],
-  "files": ["./worker-configuration.d.ts"]
+  "include": ["src/worker", "./worker-configuration.d.ts"]
 }

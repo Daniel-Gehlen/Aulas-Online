@@ -13,9 +13,6 @@ export default function Footer() {
                 <img
                   src="/assets/professor.jpg"
                   alt="Professor Daniel Gehlen"
-                  onError={(e) =>
-                    (e.currentTarget.src = "/assets/professor.svg")
-                  }
                   className="w-12 h-12 rounded-lg object-cover"
                 />
                 <h3 className="text-2xl font-bold text-white">

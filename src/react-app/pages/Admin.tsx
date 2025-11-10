@@ -93,7 +93,6 @@ export default function Admin() {
               <img
                 src="/assets/professor.jpg"
                 alt="Professor Daniel Gehlen"
-                onError={(e) => (e.currentTarget.src = "/assets/professor.svg")}
                 className="w-10 h-10 rounded-lg object-cover"
               />
               <h1 className="text-2xl font-bold text-gray-900">

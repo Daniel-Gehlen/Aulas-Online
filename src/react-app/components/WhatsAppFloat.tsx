@@ -59,7 +59,6 @@ export default function WhatsAppFloat() {
           <img
             src="/assets/professor.jpg"
             alt="Professor Daniel Gehlen"
-            onError={(e) => (e.currentTarget.src = "/assets/professor.svg")}
             className="w-8 h-8 rounded-full object-cover"
           />
           <div>

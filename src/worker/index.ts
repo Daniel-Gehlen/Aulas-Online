@@ -1,3 +1,4 @@
+/// <reference path="../../worker-configuration.d.ts" />
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 import { zValidator } from "@hono/zod-validator";

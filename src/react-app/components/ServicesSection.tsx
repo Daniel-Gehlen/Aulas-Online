@@ -211,10 +211,11 @@ export default function ServicesSection() {
                         : "opacity-0 translate-y-4 pointer-events-none"
                     }`}
                   >
-                    <div className="w-20 h-20 rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg flex items-center justify-center bg-white/10 text-white font-bold">
-                      {/* Replaced external CDN logo with site name badge */}
-                      <span className="text-sm">Aulas-Online</span>
-                    </div>
+                    <img
+                      src="/assets/professor.jpg"
+                      alt="Professor Daniel Gehlen"
+                      className="w-20 h-20 rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg object-cover"
+                    />
 
                     <h4 className="text-white font-bold mb-2">
                       Entre em contato

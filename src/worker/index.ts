@@ -1,4 +1,11 @@
-/// <reference path="../../worker-configuration.d.ts" />
+// Define Env interface inline to avoid external file dependency
+interface Env {
+  DB: any;
+  R2_BUCKET: any;
+  AULAS_USERS_SERVICE_API_URL: string;
+  AULAS_USERS_SERVICE_API_KEY: string;
+}
+
 import { Hono } from "hono";
 import { getCookie, setCookie } from "hono/cookie";
 import { zValidator } from "@hono/zod-validator";

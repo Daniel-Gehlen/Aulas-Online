@@ -16,8 +16,8 @@ interface FloatingParticlesProps {
 }
 
 export default function FloatingParticles({ 
-  count = 30, 
-  colors = ['rgba(249, 115, 22, 0.4)', 'rgba(220, 38, 38, 0.3)', 'rgba(124, 58, 237, 0.3)', 'rgba(251, 191, 36, 0.3)']
+  count = 100, // Increased for denser look
+  colors = ['rgba(255, 255, 255, 0.4)']
 }: FloatingParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -39,15 +39,18 @@ export default function FloatingParticles({
     window.addEventListener('resize', resizeCanvas);
 
     // Initialize particles
-    particlesRef.current = Array.from({ length: count }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 3 + 1,
-      speedY: (Math.random() - 0.5) * 0.5,
-      speedX: (Math.random() - 0.5) * 0.5,
-      opacity: Math.random() * 0.5 + 0.2,
-      color: colors[Math.floor(Math.random() * colors.length)]
-    }));
+    particlesRef.current = Array.from({ length: count }, () => {
+      const size = Math.random() * 2 + 0.5;
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: size,
+        speedY: Math.random() * 0.5 + 0.2, // Slower, graceful fall
+        speedX: (Math.random() - 0.5) * 0.2,
+        opacity: Math.random() * 0.5 + 0.2,
+        color: 'rgba(255, 255, 255, 0.8)'
+      };
+    });
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -57,41 +60,31 @@ export default function FloatingParticles({
         particle.y += particle.speedY;
         particle.x += particle.speedX;
 
-        // Wrap around screen
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
+        // Reset snow to top
+        if (particle.y > canvas.height) {
+          particle.y = -particle.size;
+          particle.x = Math.random() * canvas.width;
+        }
+        
         if (particle.x < 0) particle.x = canvas.width;
         if (particle.x > canvas.width) particle.x = 0;
 
-        // Draw particle
+        // Draw particle with glow
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        
+        // Soft glow effect
+        ctx.shadowBlur = particle.size * 2;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+        
         ctx.fillStyle = particle.color;
         ctx.globalAlpha = particle.opacity;
         ctx.fill();
+        
+        // Reset shadow for next particle
+        ctx.shadowBlur = 0;
       });
 
-      // Draw connections
-      ctx.globalAlpha = 0.1;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-      ctx.lineWidth = 0.5;
-
-      particlesRef.current.forEach((p1, i) => {
-        particlesRef.current.slice(i + 1).forEach((p2) => {
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 100) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        });
-      });
-
-      ctx.globalAlpha = 1;
       animationRef.current = requestAnimationFrame(animate);
     };
 
